@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<H2>{{ playername }}s side </H2>
+(pro tip: lag bokmerke på denne siden)
+
+
+<div class="container">
+
+    <style>
+        .sliderReversed {
+            direction: rtl;
+        }
+
+        .slider250 {
+            width: 250px;
+        }
+
+        .slider150 {
+            width: 175px;
+        }
+
+        .slider70 {
+            width: 120px;
+        }
+
+        .slider30 {
+            width: 80px;
+        }
+    </style>
+
+
+    <div class="tab-content">
+        <div id="registration" class="tab-pane fade in active">
+
+            Oppdater hva du har gjort.
+            <form action="" method="post" name="login">
+                {{ form.hidden_tag() }}
+
+                <table>
+                    <tr>
+                        <td>Dag: </td>
+                        <td>{{form.day(min=-2,max=0)}}</td>
+                        <td><span id="day_value"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Sit ups:</td>
+                        <td>{{form.sit_reps(min=0, max=250, class="slider250")}}</td>
+                        <td><span id="sit_value"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Air Squats:</td>
+                        <td>{{form.air_reps(min=0, max=150, class="slider150")}}</td>
+                        <td><span id="air_value"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Push ups:</td>
+                        <td>{{form.push_reps(min=0, max=70, class="slider70")}}</td>
+                        <td><span id="push_value"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Pull ups:</td>
+                        <td>{{form.pull_reps(min=0, max=30, class="slider30")}}</td>
+                        <td><span id="pull_value"></span></td>
+                    </tr>
+
+                </table>
+
+
+                <p><input class="btn btn-primary btn-large" name="done shit" type="submit" value="Log it!"></p>
+            </form>
+            <p>
+                <a href="{{ url_for('leaderboard') }}" class="btn btn-success btn-large"> Til tabellene! </a>
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var exercises = {{ exercises }}
+
+    var ids = ["sit", "air", "push", "pull"];
+
+    var sliders = new Array(4);
+    var outputs = new Array(4);
+
+    create_sliders(ids, exercises[{{ - form.day.data }}], {{ - form.day.data }});
+
+    function create_sliders(ids, exercises, day) {
+        create_slider(ids[0], exercises, day, 0);
+        create_slider(ids[1], exercises, day, 1);
+        create_slider(ids[2], exercises, day, 2);
+        create_slider(ids[3], exercises, day, 3);
+    };
+
+    function create_slider(id, exercises, day, i) {
+        id_range = id + '_reps';
+        id_value = id + '_value';
+
+        sliders[i] = document.getElementById(id_range);
+        outputs[i] = document.getElementById(id_value);
+
+        outputs[i].innerHTML = exercises[i];
+        sliders[i].value = exercises[i];
+
+        sliders[i].oninput = function () {
+            outputs[i].innerHTML = this.value;
+            exercises[day][i] = this.value;
+        };
+
+    }
+
+
+
+    function dayslidertext(n) {
+        if (n == -2) {
+            return "I forgårs";
+        }
+        else if (n == -1) {
+            return "I går";
+        } else {
+            return "I dag";
+        }
+    }
+
+    var dayslider = document.getElementById("day");
+    var dayoutput = document.getElementById("day_value");
+
+    dayslider.value = {{ form.day.data }};
+    dayoutput.innerHTML = dayslidertext(dayslider.value);
+
+
+    dayslider.oninput = function () {
+        dayoutput.innerHTML = dayslidertext(this.value);
+        create_sliders(ids, exercises[-this.value], -this.value);
+    }
+
+
+</script>
+
+{% endblock %}

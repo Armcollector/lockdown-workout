@@ -1,0 +1,226 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+
+
+<div class="container">
+    <ul class="nav nav-pills">
+        <li class="active"><a data-toggle="pill" href="#overall">Total per øvelse</a></li>
+        <li><a data-toggle="pill" href="#today">I dag</a></li>
+        <li><a data-toggle="pill" href="#yesterday">I går</a></li>
+        <li><a data-toggle="pill" href="#last5days">Siste 5 dager</a></li>
+        <li><a data-toggle="pill" href="#day1medals">Medaljer</a></li>
+        <li><a data-toggle="pill" href="#maxinaday">Max på en dag</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="overall" class="tab-pane fade in active">
+
+            <table id="overall-table" class="display" style="width:100%">
+                <thead>
+                    <th>Navn</th>
+                    <th>Sit ups</th>
+                    <th>Air squats</th>
+                    <th>Push ups</th>
+                    <th>Pull ups </th>
+                    <th>Total reps</th>
+                </thead>
+                <tbody>
+
+                </tbody>
+                <tfoot>
+                    <th>Navn</th>
+                    <th>Sit ups</th>
+                    <th>Air squats</th>
+                    <th>Push ups</th>
+                    <th>Pull ups </th>
+                    <th>Total reps</th>
+                </tfoot>
+            </table>
+        </div>
+
+
+        <div id="today" class="tab-pane fade">
+            <table id="today-table" class="table table-striped">
+                <thead>
+                    <th>Navn</th>
+                    <th>Sit ups</th>
+                    <th>Air squats</th>
+                    <th>Push ups</th>
+                    <th>Pull ups </th>
+                    <th>Total reps</th>
+                </thead>
+                <tbody>
+
+                </tbody>
+                <tfoot>
+                    <th>Navn</th>
+                    <th>Sit ups</th>
+                    <th>Air squats</th>
+                    <th>Push ups</th>
+                    <th>Pull ups </th>
+                    <th>Total reps</th>
+                </tfoot>
+
+            </table>
+        </div>
+
+
+        <div id="yesterday" class="tab-pane fade">
+            <table id="yesterday-table" class="display" style="width:100%">
+                <thead>
+                    <th>Navn</th>
+                    <th>Sit ups</th>
+                    <th>Air squats</th>
+                    <th>Push ups</th>
+                    <th>Pull ups </th>
+                    <th>Total reps</th>
+                </thead>
+                <tbody>
+
+                </tbody>
+                <tfoot>
+                    <th>Navn</th>
+                    <th>Sit ups</th>
+                    <th>Air squats</th>
+                    <th>Push ups</th>
+                    <th>Pull ups </th>
+                    <th>Total reps</th>
+                </tfoot>
+            </table>
+        </div>
+
+        <div id="last5days" class="tab-pane fade">
+            <table id="five-table" class="table table-striped">
+                <thead>
+                    <th>Navn</th>
+                    <th>Sit ups</th>
+                    <th>Air squats</th>
+                    <th>Push ups</th>
+                    <th>Pull ups </th>
+                    <th>Total reps</th>
+                </thead>
+                <tbody>
+
+                </tbody>
+                <tfoot>
+                    <th>Navn</th>
+                    <th>Sit ups</th>
+                    <th>Air squats</th>
+                    <th>Push ups</th>
+                    <th>Pull ups </th>
+                    <th>Total reps</th>
+                </tfoot>
+
+            </table>
+        </div>
+
+        <div id="day1medals" class="tab-pane fade">
+            Vinnere av dagskonkurranser
+            <table id="medals-table" class="table table-striped">
+                <thead>
+                    <th> Navn</th>
+                    <th> <img src="/static/images/gold_small.png"></th>
+                    <th><img src="/static/images/silver_small.png"></th>
+                    <th> <img src="/static/images/bronze_small.png"></th>
+                    <th> Poeng </th>
+                </thead>
+
+
+                <tbody>
+
+                </tbody>
+
+            </table>
+        </div>
+
+
+        <div id="maxinaday" class="tab-pane fade">
+            <table id='max-table' class="table table-striped">
+                <thead>
+                    <th>Navn</th>
+                    <th>Sit ups</th>
+                    <th>Air squats</th>
+                    <th>Push ups</th>
+                    <th>Pull ups </th>
+                    <th>Total reps</th>
+                </thead>
+                <tbody>
+
+                </tbody>
+                <tfoot>
+                    <th>Navn</th>
+                    <th>Sit ups</th>
+                    <th>Air squats</th>
+                    <th>Push ups</th>
+                    <th>Pull ups </th>
+                    <th>Total reps</th>
+                </tfoot>
+
+            </table>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+
+<script type="text/javascript" charset="utf-8">
+
+    $(document).ready(function () {
+        $('#overall-table').DataTable({
+            "ajax": "{{ url_for('data3') }}",
+            "order": [[5, "desc"]],
+            "pageLength": 20
+
+        });
+
+        $('#today-table').DataTable({
+            "ajax": "{{ url_for('data_today') }}",
+            "order": [[5, "desc"]],
+            "pageLength": 20
+
+        });
+
+        $('#yesterday-table').DataTable({
+            "ajax": "{{ url_for('data_yesterday') }}",
+            "order": [[5, "desc"]],
+            "pageLength": 20
+
+        });
+
+        $('#five-table').DataTable({
+            "ajax": "{{ url_for('data_five') }}",
+            "order": [[5, "desc"]],
+            "pageLength": 20
+
+        });
+
+        $('#medals-table').DataTable({
+            "ajax": "{{ url_for('data_medals') }}",
+            "order": [[4, "desc"]],
+            "pageLength": 20
+
+        });
+
+        $('#max-table').DataTable({
+            "ajax": "{{ url_for('data_max') }}",
+            "order": [[5, "desc"]],
+            "pageLength": 20
+
+        });
+
+
+
+    });
+
+</script>
+{% endblock %}

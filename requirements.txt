@@ -1,0 +1,12 @@
+email_validator
+Flask
+pyodbc
+wtforms
+flask-wtf 
+flask-login
+flask-sqlalchemy
+pylint
+pylint-flask
+sqlalchemy-datatables
+pandas
+Flask-Caching

@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+
+
+<div class="container">
+    <ul class="nav nav-pills">
+        <li class="active"><a data-toggle="pill" href="#overall">Snitt av topp 3 utøvere per team</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="overall" class="tab-pane fade in active">
+
+            <table id="overall-table" class="display" style="width:100%">
+                <thead>
+                    <th>Navn</th>
+                    <th>Sit ups</th>
+                    <th>Air squats</th>
+                    <th>Push ups</th>
+                    <th>Pull ups </th>
+                    <th>Total reps</th>
+                </thead>
+                <tbody>
+
+                </tbody>
+                <tfoot>
+                    <th>Navn</th>
+                    <th>Sit ups</th>
+                    <th>Air squats</th>
+                    <th>Push ups</th>
+                    <th>Pull ups </th>
+                    <th>Total reps</th>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+
+<script type="text/javascript" charset="utf-8">
+
+    $(document).ready(function () {
+        $('#overall-table').DataTable({
+            "ajax": "{{ url_for('teamstats_data') }}",
+            "order": [[5, "desc"]]
+
+        });
+
+    });
+
+</script>
+{% endblock %}

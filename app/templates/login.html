@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+<h2 class="title">Sign In</h2>
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+
+    <p>
+        {{ form.username.label }}<br>
+        {{ form.username(size=32) }}
+    </p>
+
+    <p>
+        {{ form.password.label }} <br>
+        {{ form.password(size=32) }}
+    </p>
+
+    <p>
+        {{ form.remember_me() }} {{ form.remember_me.label }}
+    </p>
+
+    <input type="submit" class="btn btn-primary btn-large" value="Logg inn">
+
+</form>
+
+<p>New User? <a href="{{ url_for('registeruser') }}">Click to Register!</a></p>
+{% endblock %}
