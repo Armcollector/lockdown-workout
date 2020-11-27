@@ -352,31 +352,12 @@ def data_five():
 
 @app.route("/data_medals")
 def data_medals():
-    df, player_df = get_registration_and_player()
-
-    return da.medals(df, player_df)
+    return da.medals(*get_registration_and_player())
 
 
 @app.route("/data_max")
 def data_max():
-    df, player_df = get_registration_and_player()
-
-    if df.empty:
-        table = pd.DataFrame([]).to_json(orient="split", index=False)
-    else:
-        df2 = df.pivot(
-            index=["player_id", "dt"], columns="exercise_id", values="reps"
-        ).fillna(0)
-        df2["sum_reps"] = df2.sum(axis=1)
-        df2 = df2.reset_index()
-        df2 = df2.groupby("player_id").max()
-        df2 = df2.merge(
-            player_df[["id", "username"]], left_on="player_id", right_on="id"
-        )
-        df2 = df2[["username", 0, 1, 2, 3, "sum_reps"]]
-
-        table = df2.to_json(orient="split", index=False)
-    return table
+    return da.max_reps(*get_registration_and_player())
 
 
 @app.route("/teamstats_data")
