@@ -9,4 +9,5 @@ pylint
 pylint-flask
 sqlalchemy-datatables
 pandas
+pytest
 Flask-Caching
