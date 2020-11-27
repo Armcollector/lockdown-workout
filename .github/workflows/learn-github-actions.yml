@@ -1,7 +1,8 @@
 name: learn-github-actions
 on: [push]
 jobs:
-  Test code:
+  test-code:
+    name: Test the code
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2  
