@@ -22,7 +22,7 @@ def pivot_registration(df):
     df.pivot(index=["player_id", "dt"], columns="exercise_id", values="reps").fillna(0)
     df["sum_reps"] = df.sum(axis=1)
 
-    df = df.reset_index()[["player_id", "dt", "sum_reps"]]
+    df = df.reset_index()
 
     return df
 
@@ -75,7 +75,11 @@ def max_reps(df, player_df):
     if df.empty:
         table = pd.DataFrame([]).to_json(orient="split", index=False)
     else:
-        df = pivot_registration(df)
+        df = df.pivot(
+            index=["player_id", "dt"], columns="exercise_id", values="reps"
+        ).fillna(0)
+        df["sum_reps"] = df.sum(axis=1)
+        df = df.reset_index()
         df = df.groupby("player_id").max()
         df = df.merge(player_df[["id", "username"]], left_on="player_id", right_on="id")
         df = df[["username", 0, 1, 2, 3, "sum_reps"]]
