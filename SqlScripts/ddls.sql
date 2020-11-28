@@ -44,3 +44,10 @@ create table Pushupchallenge_user
 	password_hash varchar(128)
 )
 go
+
+create table Team
+(
+	name varchar(50)
+)
+go
+
