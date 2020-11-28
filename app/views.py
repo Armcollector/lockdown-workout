@@ -65,28 +65,28 @@ def logpushups():
         upsert(
             0,
             player_id=current_user.id,
-            reps=form.sit_reps.data,
+            reps=min(form.sit_reps.data,250),
             dt=datetime.strptime(form.dt.data, "%Y-%m-%d")
             + timedelta(days=form.day.data),
         )
         upsert(
             1,
             player_id=current_user.id,
-            reps=form.air_reps.data,
+            reps=min(form.air_reps.data,150),
             dt=datetime.strptime(form.dt.data, "%Y-%m-%d")
             + timedelta(days=form.day.data),
         )
         upsert(
             2,
             player_id=current_user.id,
-            reps=form.push_reps.data,
+            reps=min(form.push_reps.data,70),
             dt=datetime.strptime(form.dt.data, "%Y-%m-%d")
             + timedelta(days=form.day.data),
         )
         upsert(
             3,
             player_id=current_user.id,
-            reps=form.pull_reps.data,
+            reps=min(form.pull_reps.data,30),
             dt=datetime.strptime(form.dt.data, "%Y-%m-%d")
             + timedelta(days=form.day.data),
         )
