@@ -313,41 +313,7 @@ def data_yesterday():
 
 @app.route("/data_five")
 def data_five():
-
-    df, player_df = get_registration_and_player()
-
-    df2 = df[df.dt >= pd.to_datetime(date.today() - timedelta(days=5))]
-
-    if df2.empty:
-        table = pd.DataFrame([]).to_json(orient="split", index=False)
-    else:
-        df2 = df2.pivot(
-            index=["player_id", "dt"], columns="exercise_id", values="reps"
-        ).fillna(0)
-        df2["sum_reps"] = df2.sum(axis=1)
-        df2 = df2.reset_index()
-        df2 = df2.merge(
-            player_df[["id", "username"]], left_on="player_id", right_on="id"
-        )
-        df2.columns = [
-            "player",
-            "dt",
-            "sit ups",
-            "air squats",
-            "push ups",
-            "pull ups",
-            "total reps",
-            "id",
-            "username",
-        ]
-        df2 = df2[
-            ["username", "sit ups", "air squats", "push ups", "pull ups", "total reps"]
-        ]
-        df2 = df2.groupby("username").sum().reset_index()
-
-        table = df2.to_json(orient="split", index=False)
-
-    return table
+    return da.five(*get_registration_and_player())
 
 
 @app.route("/data_medals")
@@ -362,22 +328,4 @@ def data_max():
 
 @app.route("/teamstats_data")
 def teamstats_data():
-    df, player_df = get_registration_and_player()
-
-    df2 = df.pivot(
-        index=["player_id", "dt"], columns="exercise_id", values="reps"
-    ).fillna(0)
-    df2["sum_reps"] = df2.sum(axis=1)
-    df2 = df2.reset_index()
-    df2 = df2.merge(
-        player_df[["id", "username", "team"]], left_on="player_id", right_on="id"
-    ).drop(["player_id"], axis=1)
-    df2["rank"] = (
-        df2.groupby("team")["sum_reps"].rank("first", ascending=False).astype(int)
-    )
-    df2 = df2[df2["rank"] <= 3]
-    df2 = df2.groupby("team").mean().round().astype(int).reset_index()
-    df2 = df2[["team", 0, 1, 2, 3, "sum_reps"]]
-
-    table = df2.to_json(orient="split", index=False)
-    return table
+    return da.teamstats(*get_registration_and_player())

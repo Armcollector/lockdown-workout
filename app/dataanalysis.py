@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 import pandas as pd
 
 
@@ -19,7 +21,9 @@ def pivot_registration(df):
     Pivot registration df and add sum_reps
     """
 
-    df.pivot(index=["player_id", "dt"], columns="exercise_id", values="reps").fillna(0)
+    df = df.pivot(
+        index=["player_id", "dt"], columns="exercise_id", values="reps"
+    ).fillna(0)
     df["sum_reps"] = df.sum(axis=1)
 
     df = df.reset_index()
@@ -85,4 +89,53 @@ def max_reps(df, player_df):
         df = df[["username", 0, 1, 2, 3, "sum_reps"]]
 
         table = df.to_json(orient="split", index=False)
+    return table
+
+
+def teamstats(df, player_df):
+    if df.empty:
+        table = pd.DataFrame([]).to_json(orient="split", index=False)
+    else:
+        df = pivot_registration(df)
+        df = df.groupby("player_id").sum().reset_index()
+        df = df.merge(
+            player_df[["id", "username", "team"]], left_on="player_id", right_on="id"
+        ).drop(["player_id"], axis=1)
+        df["rank"] = (
+            df.groupby("team")["sum_reps"].rank("first", ascending=False).astype(int)
+        )
+        df = df[df["rank"] <= 3]
+        df = df.groupby("team").mean().round().astype(int).reset_index()
+        df = df[["team", 0, 1, 2, 3, "sum_reps"]]
+
+        table = df.to_json(orient="split", index=False)
+    return table
+
+
+def five(df, player_df):
+
+    df = df[df.dt >= pd.to_datetime(date.today() - timedelta(days=5))]
+
+    if df.empty:
+        table = pd.DataFrame([]).to_json(orient="split", index=False)
+    else:
+        df = pivot_registration(df)
+        df = df.groupby("player_id").sum().reset_index()
+
+        df.columns = [
+            "player_id",
+            "sit ups",
+            "air squats",
+            "push ups",
+            "pull ups",
+            "total reps",
+        ]
+
+        df = add_player(df, player_df)
+        df = df[
+            ["username", "sit ups", "air squats", "push ups", "pull ups", "total reps"]
+        ]
+
+        table = df.to_json(orient="split", index=False)
+
     return table
