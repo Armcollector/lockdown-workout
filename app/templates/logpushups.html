@@ -9,12 +9,8 @@
 <div class="container">
 
     <style>
-        .sliderReversed {
-            direction: rtl;
-        }
-
         .slider250 {
-            width: 250px;
+            width: 200px;
         }
 
         .slider150 {
@@ -47,22 +43,22 @@
                     <tr>
                         <td>Sit ups:</td>
                         <td>{{form.sit_reps(min=0, max=250, class="slider250")}}</td>
-                        <td><span id="sit_value"></span></td>
+                        <td><span id="sit_value"></span>/250</td>
                     </tr>
                     <tr>
                         <td>Air Squats:</td>
                         <td>{{form.air_reps(min=0, max=150, class="slider150")}}</td>
-                        <td><span id="air_value"></span></td>
+                        <td><span id="air_value"></span>/150</td>
                     </tr>
                     <tr>
                         <td>Push ups:</td>
                         <td>{{form.push_reps(min=0, max=70, class="slider70")}}</td>
-                        <td><span id="push_value"></span></td>
+                        <td><span id="push_value"></span>/70</td>
                     </tr>
                     <tr>
                         <td>Pull ups:</td>
                         <td>{{form.pull_reps(min=0, max=30, class="slider30")}}</td>
-                        <td><span id="pull_value"></span></td>
+                        <td><span id="pull_value"></span>/30</td>
                     </tr>
 
                 </table>

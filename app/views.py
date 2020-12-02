@@ -9,6 +9,7 @@ from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.urls import url_parse
 
+import app.dataanalysis as da
 import app.databasefunctions as dbfunc
 import app.forms as forms
 from app import app
@@ -65,28 +66,28 @@ def logpushups():
         upsert(
             0,
             player_id=current_user.id,
-            reps=min(form.sit_reps.data,250),
+            reps=min(form.sit_reps.data, 250),
             dt=datetime.strptime(form.dt.data, "%Y-%m-%d")
             + timedelta(days=form.day.data),
         )
         upsert(
             1,
             player_id=current_user.id,
-            reps=min(form.air_reps.data,150),
+            reps=min(form.air_reps.data, 150),
             dt=datetime.strptime(form.dt.data, "%Y-%m-%d")
             + timedelta(days=form.day.data),
         )
         upsert(
             2,
             player_id=current_user.id,
-            reps=min(form.push_reps.data,70),
+            reps=min(form.push_reps.data, 70),
             dt=datetime.strptime(form.dt.data, "%Y-%m-%d")
             + timedelta(days=form.day.data),
         )
         upsert(
             3,
             player_id=current_user.id,
-            reps=min(form.pull_reps.data,30),
+            reps=min(form.pull_reps.data, 30),
             dt=datetime.strptime(form.dt.data, "%Y-%m-%d")
             + timedelta(days=form.day.data),
         )
@@ -208,232 +209,34 @@ def get_registration_and_player():
 
 @app.route("/data3")
 def data3():
-
-    df, player_df = get_registration_and_player()
-
-    if df.empty:
-        table = pd.DataFrame([]).to_json(orient="split", index=False)
-    else:
-
-        df2 = df.pivot(
-            index=["player_id", "dt"], columns="exercise_id", values="reps"
-        ).fillna(0)
-        df2["sum_reps"] = df2.sum(axis=1)
-        df2 = df2.reset_index()
-        df2 = df2.groupby("player_id").sum()
-        df2.columns = ["sit ups", "air squats", "push ups", "pull ups", "total reps"]
-        df2 = df2.merge(
-            player_df[["id", "username"]], left_on="player_id", right_on="id"
-        )
-        df2 = df2[
-            ["username", "sit ups", "air squats", "push ups", "pull ups", "total reps"]
-        ]
-
-        table = df2.to_json(orient="split", index=False)
-
-    return table
+    return da.total(*get_registration_and_player())
 
 
 @app.route("/data_today")
 def data_today():
-
-    df, player_df = get_registration_and_player()
-
-    df2 = df[df.dt == date.today()]
-
-    if df2.empty:
-        table = pd.DataFrame([]).to_json(orient="split", index=False)
-    else:
-        df2 = df2.pivot(
-            index=["player_id", "dt"], columns="exercise_id", values="reps"
-        ).fillna(0)
-        df2["sum_reps"] = df2.sum(axis=1)
-        df2 = df2.reset_index()
-        df2 = df2.merge(
-            player_df[["id", "username"]], left_on="player_id", right_on="id"
-        )
-        df2.columns = [
-            "player",
-            "dt",
-            "sit ups",
-            "air squats",
-            "push ups",
-            "pull ups",
-            "total reps",
-            "id",
-            "username",
-        ]
-        df2 = df2[
-            ["username", "sit ups", "air squats", "push ups", "pull ups", "total reps"]
-        ]
-
-        table = df2.to_json(orient="split", index=False)
-
-    return table
+    return da.today(*get_registration_and_player())
 
 
 @app.route("/data_yesterday")
 def data_yesterday():
-
-    df, player_df = get_registration_and_player()
-
-    df2 = df[df.dt == date.today() - timedelta(days=1)]
-
-    if df2.empty:
-        table = pd.DataFrame([]).to_json(orient="split", index=False)
-    else:
-        df2 = df2.pivot(
-            index=["player_id", "dt"], columns="exercise_id", values="reps"
-        ).fillna(0)
-        df2["sum_reps"] = df2.sum(axis=1)
-        df2 = df2.reset_index()
-        df2 = df2.merge(
-            player_df[["id", "username"]], left_on="player_id", right_on="id"
-        )
-        df2.columns = [
-            "player",
-            "dt",
-            "sit ups",
-            "air squats",
-            "push ups",
-            "pull ups",
-            "total reps",
-            "id",
-            "username",
-        ]
-        df2 = df2[
-            ["username", "sit ups", "air squats", "push ups", "pull ups", "total reps"]
-        ]
-
-        table = df2.to_json(orient="split", index=False)
-
-    return table
+    return da.yesterday(*get_registration_and_player())
 
 
 @app.route("/data_five")
 def data_five():
-
-    df, player_df = get_registration_and_player()
-
-    df2 = df[df.dt >= pd.to_datetime(date.today() - timedelta(days=5))]
-
-    if df2.empty:
-        table = pd.DataFrame([]).to_json(orient="split", index=False)
-    else:
-        df2 = df2.pivot(
-            index=["player_id", "dt"], columns="exercise_id", values="reps"
-        ).fillna(0)
-        df2["sum_reps"] = df2.sum(axis=1)
-        df2 = df2.reset_index()
-        df2 = df2.merge(
-            player_df[["id", "username"]], left_on="player_id", right_on="id"
-        )
-        df2.columns = [
-            "player",
-            "dt",
-            "sit ups",
-            "air squats",
-            "push ups",
-            "pull ups",
-            "total reps",
-            "id",
-            "username",
-        ]
-        df2 = df2[
-            ["username", "sit ups", "air squats", "push ups", "pull ups", "total reps"]
-        ]
-        df2 = df2.groupby("username").sum().reset_index()
-
-        table = df2.to_json(orient="split", index=False)
-
-    return table
+    return da.five(*get_registration_and_player())
 
 
 @app.route("/data_medals")
 def data_medals():
-    df, player_df = get_registration_and_player()
-
-    df2 = df
-
-    if df2.empty:
-        table = pd.DataFrame([]).to_json(orient="split", index=False)
-    else:
-        df2 = df2.pivot(
-            index=["player_id", "dt"], columns="exercise_id", values="reps"
-        ).fillna(0)
-        df2["sum_reps"] = df2.sum(axis=1)
-
-        df2 = df2.reset_index()[["player_id", "dt", "sum_reps"]]
-
-        df2["rank"] = (
-            df2.groupby("dt")["sum_reps"].rank("min", ascending=False).astype(int)
-        )
-        df2 = df2[df2["rank"] <= 3]
-        df2 = (
-            df2.groupby(["player_id", "rank"])
-            .count()
-            .reset_index()
-            .pivot(index="player_id", columns="rank", values="dt")
-            .fillna(0)
-        )
-
-        df2 = df2.astype(int)
-
-        if 2 not in df2.columns:
-            df2[2] = 0
-        if 3 not in df2.columns:
-            df2[3] = 0
-
-        df2["points"] = df2[1] * 3 + df2[2] * 2 + df2[3]
-        df2 = df2.merge(
-            player_df[["id", "username"]], left_on="player_id", right_on="id"
-        ).drop("id", axis=1)
-        df2 = df2[["username", 1, 2, 3, "points"]]
-
-        table = df2.to_json(orient="split", index=False)
-    return table
+    return da.medals(*get_registration_and_player())
 
 
 @app.route("/data_max")
 def data_max():
-    df, player_df = get_registration_and_player()
-
-    if df.empty:
-        table = pd.DataFrame([]).to_json(orient="split", index=False)
-    else:
-        df2 = df.pivot(
-            index=["player_id", "dt"], columns="exercise_id", values="reps"
-        ).fillna(0)
-        df2["sum_reps"] = df2.sum(axis=1)
-        df2 = df2.reset_index()
-        df2 = df2.groupby("player_id").max()
-        df2 = df2.merge(
-            player_df[["id", "username"]], left_on="player_id", right_on="id"
-        )
-        df2 = df2[["username", 0, 1, 2, 3, "sum_reps"]]
-
-        table = df2.to_json(orient="split", index=False)
-    return table
+    return da.max_reps(*get_registration_and_player())
 
 
 @app.route("/teamstats_data")
 def teamstats_data():
-    df, player_df = get_registration_and_player()
-
-    df2 = df.pivot(
-        index=["player_id", "dt"], columns="exercise_id", values="reps"
-    ).fillna(0)
-    df2["sum_reps"] = df2.sum(axis=1)
-    df2 = df2.reset_index()
-    df2 = df2.merge(
-        player_df[["id", "username", "team"]], left_on="player_id", right_on="id"
-    ).drop(["player_id"], axis=1)
-    df2["rank"] = (
-        df2.groupby("team")["sum_reps"].rank("first", ascending=False).astype(int)
-    )
-    df2 = df2[df2["rank"] <= 3]
-    df2 = df2.groupby("team").mean().round().astype(int).reset_index()
-    df2 = df2[["team", 0, 1, 2, 3, "sum_reps"]]
-
-    table = df2.to_json(orient="split", index=False)
-    return table
+    return da.teamstats(*get_registration_and_player())

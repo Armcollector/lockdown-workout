@@ -179,42 +179,42 @@
         $('#overall-table').DataTable({
             "ajax": "{{ url_for('data3') }}",
             "order": [[5, "desc"]],
-            "pageLength": 20
+            "pageLength": 25
 
         });
 
         $('#today-table').DataTable({
             "ajax": "{{ url_for('data_today') }}",
             "order": [[5, "desc"]],
-            "pageLength": 20
+            "pageLength": 25
 
         });
 
         $('#yesterday-table').DataTable({
             "ajax": "{{ url_for('data_yesterday') }}",
             "order": [[5, "desc"]],
-            "pageLength": 20
+            "pageLength": 25
 
         });
 
         $('#five-table').DataTable({
             "ajax": "{{ url_for('data_five') }}",
             "order": [[5, "desc"]],
-            "pageLength": 20
+            "pageLength": 25
 
         });
 
         $('#medals-table').DataTable({
             "ajax": "{{ url_for('data_medals') }}",
             "order": [[4, "desc"]],
-            "pageLength": 20
+            "pageLength": 25
 
         });
 
         $('#max-table').DataTable({
             "ajax": "{{ url_for('data_max') }}",
             "order": [[5, "desc"]],
-            "pageLength": 20
+            "pageLength": 25
 
         });
 
