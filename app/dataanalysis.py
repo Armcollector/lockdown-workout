@@ -112,9 +112,9 @@ def teamstats(df, player_df):
     return table
 
 
-def five(df, player_df):
-
-    df = df[df.dt >= pd.to_datetime(date.today() - timedelta(days=5))]
+def period(dt_from, dt_to, df, player_df):
+    df = df[df.dt >= dt_from]
+    df = df[df.dt <= dt_to]
 
     if df.empty:
         table = pd.DataFrame([]).to_json(orient="split", index=False)
@@ -139,3 +139,24 @@ def five(df, player_df):
         table = df.to_json(orient="split", index=False)
 
     return table
+
+
+def yesterday(df, player_df):
+    return period(
+        date.today() - timedelta(days=1),
+        date.today() - timedelta(days=1),
+        df,
+        player_df,
+    )
+
+
+def today(df, player_df):
+    return period(date.today(), date.today(), df, player_df)
+
+
+def total(df, player_df):
+    return period(date(2020, 11, 1), date.today(), df, player_df)
+
+
+def five(df, player_df):
+    return period(date.today() - timedelta(days=5), date.today(), df, player_df)

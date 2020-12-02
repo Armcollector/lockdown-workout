@@ -209,106 +209,17 @@ def get_registration_and_player():
 
 @app.route("/data3")
 def data3():
-
-    df, player_df = get_registration_and_player()
-
-    if df.empty:
-        table = pd.DataFrame([]).to_json(orient="split", index=False)
-    else:
-
-        df2 = df.pivot(
-            index=["player_id", "dt"], columns="exercise_id", values="reps"
-        ).fillna(0)
-        df2["sum_reps"] = df2.sum(axis=1)
-        df2 = df2.reset_index()
-        df2 = df2.groupby("player_id").sum()
-        df2.columns = ["sit ups", "air squats", "push ups", "pull ups", "total reps"]
-        df2 = df2.merge(
-            player_df[["id", "username"]], left_on="player_id", right_on="id"
-        )
-        df2 = df2[
-            ["username", "sit ups", "air squats", "push ups", "pull ups", "total reps"]
-        ]
-
-        table = df2.to_json(orient="split", index=False)
-
-    return table
+    return da.total(*get_registration_and_player())
 
 
 @app.route("/data_today")
 def data_today():
-
-    df, player_df = get_registration_and_player()
-
-    df2 = df[df.dt == date.today()]
-
-    if df2.empty:
-        table = pd.DataFrame([]).to_json(orient="split", index=False)
-    else:
-        df2 = df2.pivot(
-            index=["player_id", "dt"], columns="exercise_id", values="reps"
-        ).fillna(0)
-        df2["sum_reps"] = df2.sum(axis=1)
-        df2 = df2.reset_index()
-        df2 = df2.merge(
-            player_df[["id", "username"]], left_on="player_id", right_on="id"
-        )
-        df2.columns = [
-            "player",
-            "dt",
-            "sit ups",
-            "air squats",
-            "push ups",
-            "pull ups",
-            "total reps",
-            "id",
-            "username",
-        ]
-        df2 = df2[
-            ["username", "sit ups", "air squats", "push ups", "pull ups", "total reps"]
-        ]
-
-        table = df2.to_json(orient="split", index=False)
-
-    return table
+    return da.today(*get_registration_and_player())
 
 
 @app.route("/data_yesterday")
 def data_yesterday():
-
-    df, player_df = get_registration_and_player()
-
-    df2 = df[df.dt == date.today() - timedelta(days=1)]
-
-    if df2.empty:
-        table = pd.DataFrame([]).to_json(orient="split", index=False)
-    else:
-        df2 = df2.pivot(
-            index=["player_id", "dt"], columns="exercise_id", values="reps"
-        ).fillna(0)
-        df2["sum_reps"] = df2.sum(axis=1)
-        df2 = df2.reset_index()
-        df2 = df2.merge(
-            player_df[["id", "username"]], left_on="player_id", right_on="id"
-        )
-        df2.columns = [
-            "player",
-            "dt",
-            "sit ups",
-            "air squats",
-            "push ups",
-            "pull ups",
-            "total reps",
-            "id",
-            "username",
-        ]
-        df2 = df2[
-            ["username", "sit ups", "air squats", "push ups", "pull ups", "total reps"]
-        ]
-
-        table = df2.to_json(orient="split", index=False)
-
-    return table
+    return da.yesterday(*get_registration_and_player())
 
 
 @app.route("/data_five")
