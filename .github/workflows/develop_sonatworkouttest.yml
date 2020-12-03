@@ -31,7 +31,7 @@ jobs:
 
     - name: Copy config file
       run: | 
-        mv configs/sonatconfig.py config.py
+        mv ~/.configs/sonatconfig.py ~/config.py
 
     - name: Build using AppService-Build
       uses: azure/appservice-build@v2
