@@ -1,12 +1,12 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Python app to Azure Web App - bgworkout
+name: Deploy to sonatworkouttest
 
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   build-and-deploy:
@@ -29,15 +29,19 @@ jobs:
       with:
         python-version: '3.7'
 
+    - name: Copy config file
+      run: | 
+        mv .configs/sonatconfig.py config.py
+
     - name: Build using AppService-Build
       uses: azure/appservice-build@v2
       with:
         platform: python
         platform-version: '3.7'
-
+    
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'bgworkout'
+        app-name: 'sonatworkouttest'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_1beca3bd15ea4b55abd67447182dfc15 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_add56d2218904e2bbd8e4e9c11859336 }}
