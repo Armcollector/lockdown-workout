@@ -14,11 +14,25 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
+    
+    - name: Black Code Formatter
+      uses: lgeiger/black-action@v1.0.1
+      with:
+        args: ".  --check"
+    - name: Pytest
+      uses: cclauss/GitHub-Action-for-pytest@0.5.0
+      with:
+        args: pytest
 
     - name: Set up Python version
       uses: actions/setup-python@v1
       with:
         python-version: '3.7'
+
+    - name: Copy config file
+      run: | 
+        mv .configs/sonatconfig.py config.py
+
 
     - name: Build using AppService-Build
       uses: azure/appservice-build@v2
