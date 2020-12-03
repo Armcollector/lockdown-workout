@@ -29,12 +29,16 @@ jobs:
       with:
         python-version: '3.7'
 
+    - name: Copy config file
+      run: | 
+        mv configs/sonatconfig.py config.py
+
     - name: Build using AppService-Build
       uses: azure/appservice-build@v2
       with:
         platform: python
         platform-version: '3.7'
-
+    
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
       with:
