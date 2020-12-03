@@ -179,10 +179,15 @@ def whatsnew():
 @app.route("/leaderboard")
 def leaderboard():
 
+    exercises = pd.read_sql(
+        "select exercise_name from Exercise", dbfunc.getconnection()
+    )["exercise_name"].tolist()
+
     return render_template(
         "leaderboard.html",
         title="Tabellene",
         year=datetime.now().year,
+        exercises=exercises,
         **common_items(),
     )
 
