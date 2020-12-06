@@ -19,5 +19,5 @@ class Config(object):
     CACHE_DEFAULT_TIMEOUT = 50
     MAINTITLE = "BGs Lockdown Workout "
     INSTANCE = "BG"
-    # MAINTITLE = "Sonats Lockdown Workout "
-    # INSTANCE = "SONAT"
+    MAINTITLE = "Sonats Lockdown Workout "
+    INSTANCE = "SONAT"

@@ -56,49 +56,29 @@ def logpushups():
 
     exercises_db = Exercise.query.all()
 
-    if form.validate_on_submit():
-        flash("Lagret ny status.")
-
-        upsert(
-            0,
-            player_id=current_user.id,
-            reps=min(form.sit_reps.data, 250),
-            dt=datetime.strptime(form.dt.data, "%Y-%m-%d")
-            + timedelta(days=form.day.data),
-        )
-        upsert(
-            1,
-            player_id=current_user.id,
-            reps=min(form.air_reps.data, 150),
-            dt=datetime.strptime(form.dt.data, "%Y-%m-%d")
-            + timedelta(days=form.day.data),
-        )
-        upsert(
-            2,
-            player_id=current_user.id,
-            reps=min(form.push_reps.data, 70),
-            dt=datetime.strptime(form.dt.data, "%Y-%m-%d")
-            + timedelta(days=form.day.data),
-        )
-        upsert(
-            3,
-            player_id=current_user.id,
-            reps=min(form.pull_reps.data, 30),
-            dt=datetime.strptime(form.dt.data, "%Y-%m-%d")
-            + timedelta(days=form.day.data),
-        )
-
-    registered_exercises = [get_exercises(0), get_exercises(1), get_exercises(2)]
-
-    exercises = {
+    formmap = {
         0: form.sit_reps,
         1: form.air_reps,
         2: form.push_reps,
         3: form.pull_reps,
     }
 
+    if form.validate_on_submit():
+        flash("Lagret ny status.")
+
+        for i, exercise in enumerate(exercises_db):
+            upsert(
+                exercise.exercise_type_id,
+                player_id=current_user.id,
+                reps=min(formmap[i].data, exercise.maxrep),
+                dt=datetime.strptime(form.dt.data, "%Y-%m-%d")
+                + timedelta(days=form.day.data),
+            )
+
+    registered_exercises = [get_exercises(0), get_exercises(1), get_exercises(2)]
+
     for i, ex in enumerate(registered_exercises[0]):
-        exercises[i].data = ex
+        formmap[i].data = ex
 
     form.dt.data = date.today()
 
