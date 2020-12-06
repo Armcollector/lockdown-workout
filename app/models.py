@@ -39,7 +39,7 @@ class Team(db.Model):
 
 
 class Exercise(db.Model):
-    exercise_id = db.Column(db.Integer, primary_key=True)
+    exercise_type_id = db.Column(db.Integer, primary_key=True)
     exercise_name = db.Column(db.String(50))
     exercise_description = db.Column(db.String(250))
     maxrep = db.Column(db.Integer)

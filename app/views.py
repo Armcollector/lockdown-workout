@@ -54,6 +54,8 @@ def get_exercises(delta):
 def logpushups():
     form = forms.Logpushups()
 
+    exercises_db = Exercise.query.all()
+
     if form.validate_on_submit():
         flash("Lagret ny status.")
 
@@ -113,6 +115,7 @@ def logpushups():
         form=form,
         today=date.today(),
         exercises=registered_exercises,
+        exercises_db=exercises_db,
         **common_items(),
     )
 
@@ -172,10 +175,7 @@ def whatsnew():
 
 @app.route("/leaderboard")
 def leaderboard():
-
-    exercises = pd.read_sql(
-        "select exercise_name from Exercise", dbfunc.getconnection()
-    )["exercise_name"].tolist()
+    exercises = Exercise.query.all()
 
     return render_template(
         "leaderboard.html",

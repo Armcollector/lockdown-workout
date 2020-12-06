@@ -40,26 +40,31 @@
                         <td>{{form.day(min=-2,max=0)}}</td>
                         <td><span id="day_value"></span></td>
                     </tr>
+
                     <tr>
-                        <td>Sit ups:</td>
-                        <td>{{form.sit_reps(min=0, max=250, class="slider250")}}</td>
-                        <td><span id="sit_value"></span>/250</td>
+                        <td>{{ exercises_db[0].exercise_name }}:</td>
+                        <td>{{form.sit_reps(min=0, max=exercises_db[0].maxrep, class="slider30")}}</td>
+                        <td><span id="sit_value"></span>/{{ exercises_db[0].maxrep }}</td>
                     </tr>
+
                     <tr>
-                        <td>Air Squats:</td>
-                        <td>{{form.air_reps(min=0, max=150, class="slider150")}}</td>
-                        <td><span id="air_value"></span>/150</td>
+                        <td>{{ exercises_db[1].exercise_name }}:</td>
+                        <td>{{form.air_reps(min=0, max=exercises_db[1].maxrep, class="slider70")}}</td>
+                        <td><span id="air_value"></span>/{{ exercises_db[1].maxrep }}</td>
                     </tr>
+
                     <tr>
-                        <td>Push ups:</td>
-                        <td>{{form.push_reps(min=0, max=70, class="slider70")}}</td>
-                        <td><span id="push_value"></span>/70</td>
+                        <td>{{ exercises_db[2].exercise_name }}:</td>
+                        <td>{{form.push_reps(min=0, max=exercises_db[2].maxrep, class="slider150")}}</td>
+                        <td><span id="push_value"></span>/{{ exercises_db[2].maxrep }}</td>
                     </tr>
+
                     <tr>
-                        <td>Pull ups:</td>
-                        <td>{{form.pull_reps(min=0, max=30, class="slider30")}}</td>
-                        <td><span id="pull_value"></span>/30</td>
+                        <td>{{ exercises_db[3].exercise_name }}:</td>
+                        <td>{{form.pull_reps(min=0, max=exercises_db[3].maxrep, class="slider150")}}</td>
+                        <td><span id="pull_value"></span>/{{ exercises_db[3].maxrep }}</td>
                     </tr>
+
 
                 </table>
 
