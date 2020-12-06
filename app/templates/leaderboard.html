@@ -20,10 +20,9 @@
             <table id="overall-table" class="display" style="width:100%">
                 <thead>
                     <th>Navn</th>
-                    <th>Sit ups</th>
-                    <th>Air squats</th>
-                    <th>Push ups</th>
-                    <th>Pull ups </th>
+                    {% for i in exercises %}
+                    <th>{{ i.exercise_name }}</th>
+                    {% endfor %}
                     <th>Total reps</th>
                 </thead>
                 <tbody>
@@ -31,10 +30,9 @@
                 </tbody>
                 <tfoot>
                     <th>Navn</th>
-                    <th>Sit ups</th>
-                    <th>Air squats</th>
-                    <th>Push ups</th>
-                    <th>Pull ups </th>
+                    {% for i in exercises %}
+                    <th>{{ i.exercise_name }}</th>
+                    {% endfor %}
                     <th>Total reps</th>
                 </tfoot>
             </table>
@@ -45,10 +43,9 @@
             <table id="today-table" class="table table-striped">
                 <thead>
                     <th>Navn</th>
-                    <th>Sit ups</th>
-                    <th>Air squats</th>
-                    <th>Push ups</th>
-                    <th>Pull ups </th>
+                    {% for i in exercises %}
+                    <th>{{ i.exercise_name }}</th>
+                    {% endfor %}
                     <th>Total reps</th>
                 </thead>
                 <tbody>
@@ -56,10 +53,9 @@
                 </tbody>
                 <tfoot>
                     <th>Navn</th>
-                    <th>Sit ups</th>
-                    <th>Air squats</th>
-                    <th>Push ups</th>
-                    <th>Pull ups </th>
+                    {% for i in exercises %}
+                    <th>{{ i.exercise_name }}</th>
+                    {% endfor %}
                     <th>Total reps</th>
                 </tfoot>
 
@@ -71,10 +67,9 @@
             <table id="yesterday-table" class="display" style="width:100%">
                 <thead>
                     <th>Navn</th>
-                    <th>Sit ups</th>
-                    <th>Air squats</th>
-                    <th>Push ups</th>
-                    <th>Pull ups </th>
+                    {% for i in exercises %}
+                    <th>{{ i.exercise_name }}</th>
+                    {% endfor %}
                     <th>Total reps</th>
                 </thead>
                 <tbody>
@@ -82,10 +77,9 @@
                 </tbody>
                 <tfoot>
                     <th>Navn</th>
-                    <th>Sit ups</th>
-                    <th>Air squats</th>
-                    <th>Push ups</th>
-                    <th>Pull ups </th>
+                    {% for i in exercises %}
+                    <th>{{ i.exercise_name }}</th>
+                    {% endfor %}
                     <th>Total reps</th>
                 </tfoot>
             </table>
@@ -95,10 +89,9 @@
             <table id="five-table" class="table table-striped">
                 <thead>
                     <th>Navn</th>
-                    <th>Sit ups</th>
-                    <th>Air squats</th>
-                    <th>Push ups</th>
-                    <th>Pull ups </th>
+                    {% for i in exercises %}
+                    <th>{{ i.exercise_name }}</th>
+                    {% endfor %}
                     <th>Total reps</th>
                 </thead>
                 <tbody>
@@ -106,10 +99,9 @@
                 </tbody>
                 <tfoot>
                     <th>Navn</th>
-                    <th>Sit ups</th>
-                    <th>Air squats</th>
-                    <th>Push ups</th>
-                    <th>Pull ups </th>
+                    {% for i in exercises %}
+                    <th>{{ i.exercise_name }}</th>
+                    {% endfor %}
                     <th>Total reps</th>
                 </tfoot>
 
@@ -140,10 +132,9 @@
             <table id='max-table' class="table table-striped">
                 <thead>
                     <th>Navn</th>
-                    <th>Sit ups</th>
-                    <th>Air squats</th>
-                    <th>Push ups</th>
-                    <th>Pull ups </th>
+                    {% for i in exercises %}
+                    <th>{{ i.exercise_name }}</th>
+                    {% endfor %}
                     <th>Total reps</th>
                 </thead>
                 <tbody>
@@ -151,10 +142,9 @@
                 </tbody>
                 <tfoot>
                     <th>Navn</th>
-                    <th>Sit ups</th>
-                    <th>Air squats</th>
-                    <th>Push ups</th>
-                    <th>Pull ups </th>
+                    {% for i in exercises %}
+                    <th>{{ i.exercise_name }}</th>
+                    {% endfor %}
                     <th>Total reps</th>
                 </tfoot>
 

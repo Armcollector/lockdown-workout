@@ -10,11 +10,25 @@ go
 
 create table Exercise
 (
-	exercise_type_id int,
+	exercise_type_id int primary key ,
 	exercise_name varchar(50),
-	exercise_description varchar(300)
+	exercise_description varchar(300),
+	maxrep int
 )
 go
+
+
+create table ChallengeExercise
+(
+	FK_challenge_id int
+		constraint ChallengeExercise_Challenge_challenge_id_fk
+			references Challenge,
+	FK_exercise_id int
+		constraint ChallengeExercise_Exercise_exercise_type_id_fk
+			references Exercise
+)
+go
+
 
 
 drop table if exists Registration
