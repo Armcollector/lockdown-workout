@@ -14,7 +14,7 @@ import app.databasefunctions as dbfunc
 import app.forms as forms
 from app import app
 from app.databasefunctions import upsert
-from app.models import Pushupchallenge_user, Registration
+from app.models import Exercise, Pushupchallenge_user, Registration
 
 from . import app, cache, db
 
@@ -29,7 +29,6 @@ def common_items():
 @app.route("/home")
 @app.route("/index")
 def index():
-    pass
 
     return render_template(
         f"{app.config['INSTANCE']}_index.html",
@@ -37,11 +36,6 @@ def index():
         year=datetime.now().year,
         **common_items(),
     )
-
-
-@app.route("/test")
-def test():
-    return render_template("test.html")
 
 
 def get_exercises(delta):

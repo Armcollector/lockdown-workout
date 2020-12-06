@@ -36,3 +36,18 @@ class Registration(db.Model):
 
 class Team(db.Model):
     name = db.Column(db.String, primary_key=True)
+
+
+class Exercise(db.Model):
+    exercise_id = db.Column(db.Integer, primary_key=True)
+    exercise_name = db.Column(db.String(50))
+    exercise_description = db.Column(db.String(250))
+    maxrep = db.Column(db.Integer)
+
+
+class Challenge(db.Model):
+    challenge_id = db.Column(db.Integer, primary_key=True)
+    challenge_navn = db.Column(db.String(50))
+    challenge_description = db.Column(db.String(300))
+    dt_from = db.Column(db.DateTime)
+    dt_to = db.Column(db.DateTime)
