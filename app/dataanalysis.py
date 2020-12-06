@@ -86,7 +86,8 @@ def max_reps(df, player_df):
         df = df.reset_index()
         df = df.groupby("player_id").max()
         df = df.merge(player_df[["id", "username"]], left_on="player_id", right_on="id")
-        df = df[["username", 0, 1, 2, 3, "sum_reps"]]
+        exercises = df.columns.tolist()[1:5]
+        df = df[["username"] + exercises + ["sum_reps"]]
 
         table = df.to_json(orient="split", index=False)
     return table
