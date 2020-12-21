@@ -39,9 +39,13 @@ def index():
 
 
 def get_exercises(delta):
-    registered_exercises = Registration.query.filter_by(
-        player_id=current_user.id, dt=date.today() - timedelta(days=delta)
-    ).all()
+    registered_exercises = (
+        Registration.query.filter_by(
+            player_id=current_user.id, dt=date.today() - timedelta(days=delta)
+        )
+        .order_by(Registration.exercise_id)
+        .all()
+    )
 
     if not registered_exercises:
         return [0, 0, 0, 0]
@@ -54,7 +58,7 @@ def get_exercises(delta):
 def logpushups():
     form = forms.Logpushups()
 
-    exercises_db = Exercise.query.all()
+    exercises_db = Exercise.query.order_by(Exercise.exercise_type_id).all()
 
     formmap = {
         0: form.sit_reps,
@@ -155,7 +159,7 @@ def whatsnew():
 
 @app.route("/leaderboard")
 def leaderboard():
-    exercises = Exercise.query.all()
+    exercises = Exercise.query.order_by(Exercise.exercise_type_id).all()
 
     return render_template(
         "leaderboard.html",
