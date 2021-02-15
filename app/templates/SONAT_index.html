@@ -6,43 +6,22 @@
 
 
     <h1>Sonats Lockdown Workout</h1>
-    <h2>Chapter 8</h2>
 
-    <p>Etter en uke pause er vi igang igjen, uken fra 01. Januar til 05.Januar er det følgende øvelser som
+    <p>I uken fra 15. Februar til 21.Februar er det følgende øvelser som
         gjelder. </p>
 
     <p>
         Hver dag kan du logge opptil(men ikke mer enn):<br><br>
 
     <table>
+        {% for exercise in exercises %}
         <tr>
-            <td align="right">150</td>
-            <td>Bicycle crunch</td>
-            <td><a
-                    href="https://media.self.com/photos/59c816bcea81f306765b2882/master/w_1600%2Cc_limit/move9%2520(1).gif">Eksempel</a>
+            <td align="right">{{ exercise.maxrep }}</td>
+            <td>{{ exercise.exercise_name }}</td>
+            <td><a href="{{ exercise.exercise_description }}">Eksempel</a>
             </td>
         </tr>
-        <tr>
-            <td align="right">100</td>
-            <td>Sideutfall</td>
-            <td><a
-                    href="https://media.self.com/photos/59c810babdd6c02d85791294/master/w_1600%2Cc_limit/062917_fitness_18.gif">Eksempel</a>
-            </td>
-        </tr>
-        <tr>
-            <td align="right">200</td>
-            <td>Plank walk</td>
-            <td><a
-                    href="https://media.self.com/photos/57eacd33fc07bf4a790d3269/master/w_1600%2Cc_limit/Plank_Ups-new.gif">Eksempel</a>
-            </td>
-        </tr>
-
-        <tr>
-            <td align="right">70</td>
-            <td>Pushup</td>
-            <td><a href="https://media4.giphy.com/media/5t9IcXiBCyw60XPpGu/giphy.gif">Eksempel</a>
-            </td>
-        </tr>
+        {% endfor %}
     </table>
 
 

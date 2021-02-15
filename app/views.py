@@ -29,11 +29,13 @@ def common_items():
 @app.route("/home")
 @app.route("/index")
 def index():
+    exercises = Exercise.query.order_by(Exercise.exercise_type_id).all()
 
     return render_template(
         f"{app.config['INSTANCE']}_index.html",
         title="Hjem",
         year=datetime.now().year,
+        exercises=exercises,
         **common_items(),
     )
 
