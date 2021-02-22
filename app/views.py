@@ -2,6 +2,7 @@
 Routes and views for the flask application.
 """
 
+from calendar import different_locale, month_name
 from datetime import date, datetime, timedelta
 
 import pandas as pd
@@ -25,17 +26,32 @@ def common_items():
     return d
 
 
+def get_month_name(month_no):
+    locale = "nb_NO.UTF-8"
+    with different_locale(locale) as encoding:
+        return month_name[month_no]
+
+
 @app.route("/")
 @app.route("/home")
 @app.route("/index")
 def index():
     exercises = Exercise.query.order_by(Exercise.exercise_type_id).all()
 
+    today = date.today()
+    start_of_week_date = today - timedelta(days=today.weekday())
+    end_of_week_date = start_of_week_date + timedelta(days=6)
+
+    start_of_week = (start_of_week_date.day, get_month_name(start_of_week_date.month))
+    end_of_week = (end_of_week_date.day, get_month_name(end_of_week_date.month))
+
     return render_template(
         f"{app.config['INSTANCE']}_index.html",
         title="Hjem",
         year=datetime.now().year,
         exercises=exercises,
+        start_of_week=start_of_week,
+        end_of_week=end_of_week,
         **common_items(),
     )
 
