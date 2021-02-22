@@ -2,7 +2,8 @@
 Routes and views for the flask application.
 """
 
-from calendar import different_locale, month_name
+import locale
+from calendar import month_name
 from datetime import date, datetime, timedelta
 
 import pandas as pd
@@ -27,9 +28,8 @@ def common_items():
 
 
 def get_month_name(month_no):
-    locale = "nb_NO.UTF-8"
-    with different_locale(locale) as encoding:
-        return month_name[month_no]
+    locale.setlocale(locale.LC_ALL, "nb_NO.UTF-8")
+    return month_name[month_no]
 
 
 @app.route("/")
